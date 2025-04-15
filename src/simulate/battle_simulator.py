@@ -1,4 +1,3 @@
-import json
 import os
 import random
 from datetime import datetime, timedelta
@@ -9,10 +8,11 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from src.core.adventurer import Adventurer
 from src.core.monster import Monster
 from src.core.battle import Battle
+from src.etl import transform
 
-adventurer_names = ["Elira", "Borin", "Thalara", "Duncan", "Seraphine", "Kael"]
-guilds = ["Iron Fangs", "Moonlight Pact", "Arcane Blades"]
-monsters = ["Goblin", "Orc", "Wyvern", "Skeleton", "Shadow Fiend"]
+adventurer_names = ["Agarth", "Alyn Shir", "Fomorous", "Gadflow", "Ventrinio", "Aethan"]
+guilds = ["Scholia Arcana", "Warsworn", "Gravehal", "Travelers", "House of Ballads"]
+monsters = ["Goblin", "Orc", "Wyvern", "Skeleton", "Lamia"]
 
 def random_date(start_date_str, end_date_str):
     start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
@@ -55,6 +55,9 @@ def simulate_battles(n=500, output_path="data/raw/battle_logs.parquet"):
         StructField("timestamp", StringType(), True),
     ])
     df = spark.createDataFrame(records, schema)
+    profiles = spark.read.parquet(transform.path_profiles)
+    df = df.join(profiles, on='adventurer', how='left')
+
     df.show()
     df.write.mode("overwrite").parquet(output_path)
 
