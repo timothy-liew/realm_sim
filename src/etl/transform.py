@@ -59,15 +59,15 @@ if __name__ == "__main__":
     path_battle = "../simulate/data/raw/battle_logs.parquet"
     df = load_battle_data(path_battle)
 
-    # adventurer_battles = compute_strongest_adventurers(df)
-    # adventurer_battles.show()
-    # strongest_guilds = rank_within_guilds(adventurer_battles)
-    # strongest_guilds.show()
+    adventurer_battles = compute_strongest_adventurers(df)
+    adventurer_battles.show()
+    strongest_guilds = rank_within_guilds(adventurer_battles)
+    strongest_guilds.show()
 
     # compute_strongest_monsters(df).show()
     # compute_battle_days(df).show()
 
-    guild_monster_pivot(df).show()
+    # guild_monster_pivot(df).show()
 
     df.sparkSession.stop()
 

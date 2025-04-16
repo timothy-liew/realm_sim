@@ -1,0 +1,4 @@
+pyspark~=3.5.5
+pytest~=8.3.5
+chispa~=0.11.1
+apache-airflow==2.9.0
